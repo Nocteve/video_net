@@ -56,7 +56,8 @@ class VideoServer:
                 frame = cv2.resize(frame, (1280, 720))
             else:
                 frame = cv2.resize(frame, (1920, 1080))
-            # frame = cv2.resize(frame, (640, 360))
+            frame = cv2.resize(frame, (640, 360))
+            frame = cv2.resize(frame, (1280, 720))
             # 高效压缩（70%质量 + 快速编码）
             _, buffer = cv2.imencode('.jpg', frame, [
                 cv2.IMWRITE_JPEG_QUALITY, 70, 
@@ -65,7 +66,7 @@ class VideoServer:
             frame_data = buffer.tobytes()
             
             # 弱网时增加FEC冗余（心跳超时触发）
-            fec_data = self.rs.encode(frame_data) if not self.weak_network_flag else RSCodec(25).encode(frame_data)
+            fec_data = self.rs.encode(frame_data) if not self.weak_network_flag else RSCodec(20).encode(frame_data)
 
             # 分片发送协议（头部：帧ID4B + 总分片数2B + 当前分片2B）
             num_chunks = (len(fec_data) + chunk_size - 1) // chunk_size
