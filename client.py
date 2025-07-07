@@ -35,7 +35,7 @@ class VideoClient:
         while True:
             try:
                 data, _ = self.sock.recvfrom(1024 * 1024)
-                # PERF_MONITOR["recv_fps"] += 1
+                PERF_MONITOR["recv_fps"] += 1
                 
                 # 解析协议头 (帧ID4B + 总分片数2B + 分片索引2B)
                 if len(data) < 8: continue
@@ -58,7 +58,7 @@ class VideoClient:
                     del self.buffer[frame_id]
                     del self.expected_frames[frame_id]
 
-                    PERF_MONITOR["recv_fps"] += 1
+                    # PERF_MONITOR["recv_fps"] += 1
 
                     # 动态帧率控制（防止渲染阻塞）
                     current_time = time.time()

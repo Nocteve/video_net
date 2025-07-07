@@ -56,7 +56,7 @@ class VideoServer:
                 frame = cv2.resize(frame, (1280, 720))
             else:
                 frame = cv2.resize(frame, (1920, 1080))
-            frame = cv2.resize(frame, (640, 360))
+            # frame = cv2.resize(frame, (640, 360))
             # 高效压缩（70%质量 + 快速编码）
             _, buffer = cv2.imencode('.jpg', frame, [
                 cv2.IMWRITE_JPEG_QUALITY, 70, 
@@ -94,7 +94,7 @@ class VideoServer:
 
             self.frame_id = (self.frame_id + 1) % 2**32
             # print(base_fps)
-            time.sleep(1 / base_fps/4)  # 精准帧率控制
+            # time.sleep(1 / base_fps)  # 精准帧率控制
 
     def _handle_messages(self):
         while True:
